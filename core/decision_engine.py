@@ -2,7 +2,7 @@ from core.qr_decoder import QRDecoder, QRDecodeError
 from core.payload_classifier import QRPayloadClassifier, PayloadType
 from core.upi_parser import UPIParser, UPIParseError
 from core.risk_engine import QRHeuristicRiskEngine, RiskLevel
-
+from core.explainability_engine import QRExplainabilityEngine
 
 class DecisionAction:
     ALLOW = "ALLOW"
@@ -82,8 +82,9 @@ class QRDecisionEngine:
         return response
 
     def _block_decision(self, title: str, reason: str) -> dict:
-        return {
+        base_response = {
             "decision": DecisionAction.BLOCK,
             "risk_level": RiskLevel.HIGH.value,
             "reasons": [title, reason]
         }
+        return self.explain_engine.generate(base_response)
