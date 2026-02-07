@@ -1,18 +1,13 @@
-from core.decision_engine import QRDecisionEngine
+from core.ml_risk_scorer import MLRiskScorer
 
-def run_test():
-    engine = QRDecisionEngine()
-    result = engine.analyze_qr("tests/sample_qr.png")
+scorer = MLRiskScorer()
 
-    print("=== QR SECURITY ANALYSIS RESULT ===")
-    for key, value in result.items():
-        print(f"{key}: {value}")
+features = {
+    "amount": 6000,
+    "merchant_name_missing": 1,
+    "merchant_name_length": 0,
+    "upi_id_length": 8,
+    "generic_merchant_name": 0
+}
 
-    assert "decision" in result
-    assert "risk_level" in result
-
-    print("\n[TEST PASSED] Decision and explainability generated successfully.")
-
-
-if __name__ == "__main__":
-    run_test()
+print(scorer.predict_risk(features))

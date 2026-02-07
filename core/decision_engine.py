@@ -3,6 +3,10 @@ from core.payload_classifier import QRPayloadClassifier, PayloadType
 from core.upi_parser import UPIParser, UPIParseError
 from core.risk_engine import QRHeuristicRiskEngine, RiskLevel
 from core.explainability_engine import QRExplainabilityEngine
+from core.feature_extractor import QRFeatureExtractor
+from core.ml_risk_scorer import MLRiskScorer
+from core.ml_xai import MLExplainabilityEngine
+
 
 class DecisionAction:
     ALLOW = "ALLOW"
@@ -16,15 +20,27 @@ class QRDecisionEngine:
         self.classifier = QRPayloadClassifier()
         self.upi_parser = UPIParser()
         self.risk_engine = QRHeuristicRiskEngine()
+        self.explain_engine = QRExplainabilityEngine()
+
+        # ML components
+        self.feature_extractor = QRFeatureExtractor()
+        self.ml_scorer = MLRiskScorer()
+
+        # SHAP XAI (only if model exists)
+        if self.ml_scorer.is_model_loaded():
+            sample_features = self.feature_extractor.extract_upi_features({
+                "payee_address": "",
+                "payee_name": "",
+                "amount": 0
+            })
+            self.ml_xai = MLExplainabilityEngine(
+                self.ml_scorer.model,
+                feature_names=list(sample_features.keys())
+            )
+        else:
+            self.ml_xai = None
 
     def analyze_qr(self, image_path: str) -> dict:
-        """
-        End-to-end QR security analysis.
-
-        Returns:
-            dict: decision, risk_level, reasons, metadata
-        """
-
         try:
             payload = self.decoder.decode_qr(image_path)
         except QRDecodeError as e:
@@ -32,7 +48,6 @@ class QRDecisionEngine:
 
         payload_type = self.classifier.classify(payload)
 
-        # Default response structure
         response = {
             "payload_type": payload_type,
             "decision": DecisionAction.ALLOW,
@@ -41,20 +56,54 @@ class QRDecisionEngine:
             "details": {}
         }
 
-        # ---- UPI FLOW ----
+        # ---------- UPI FLOW ----------
         if payload_type == PayloadType.UPI:
             try:
                 upi_data = self.upi_parser.parse(payload)
                 risk = self.risk_engine.evaluate_upi(upi_data)
 
                 response["risk_level"] = risk.level().value
-                response["reasons"] = risk.reasons
+                response["reasons"] = list(risk.reasons)
                 response["details"] = upi_data
 
                 if risk.level() == RiskLevel.HIGH:
                     response["decision"] = DecisionAction.BLOCK
+
                 elif risk.level() == RiskLevel.MEDIUM:
-                    response["decision"] = DecisionAction.WARN
+                    # ML second opinion
+                    features = self.feature_extractor.extract_upi_features(upi_data)
+                    ml_result = self.ml_scorer.predict_risk(features)
+
+                    response["details"]["ml_used"] = ml_result["model_used"]
+                    response["details"]["ml_risk_probability"] = ml_result["risk_probability"]
+
+                    if ml_result["model_used"] and ml_result["risk_probability"] is not None:
+                        if ml_result["risk_probability"] >= 0.7:
+                            response["decision"] = DecisionAction.BLOCK
+                            response["reasons"].append(
+                                "ML model identified high scam probability"
+                            )
+                        elif ml_result["risk_probability"] >= 0.4:
+                            response["decision"] = DecisionAction.WARN
+                            response["reasons"].append(
+                                "ML model identified moderate scam probability"
+                            )
+                        else:
+                            response["decision"] = DecisionAction.ALLOW
+
+                        # SHAP explainability
+                        if self.ml_xai:
+                            shap_exp = self.ml_xai.explain(features)
+                            response["details"]["ml_explanation"] = shap_exp
+
+                            top_feature = max(
+                                shap_exp, key=lambda k: abs(shap_exp[k])
+                            )
+                            response["reasons"].append(
+                                f"ML analysis found '{top_feature}' as a major risk contributor"
+                            )
+                    else:
+                        response["decision"] = DecisionAction.WARN
 
             except UPIParseError as e:
                 return self._block_decision(
@@ -62,24 +111,25 @@ class QRDecisionEngine:
                     str(e)
                 )
 
-        # ---- URL FLOW ----
+        # ---------- URL FLOW ----------
         elif payload_type == PayloadType.URL:
             risk = self.risk_engine.evaluate_url(payload)
 
             response["risk_level"] = risk.level().value
-            response["reasons"] = risk.reasons
+            response["reasons"] = list(risk.reasons)
             response["details"] = {"url": payload}
 
             if risk.level() != RiskLevel.LOW:
                 response["decision"] = DecisionAction.WARN
 
-        # ---- OTHER / UNKNOWN ----
+        # ---------- UNKNOWN ----------
         else:
             response["decision"] = DecisionAction.WARN
             response["risk_level"] = RiskLevel.MEDIUM.value
             response["reasons"].append("Unknown or unsupported QR payload")
 
-        return response
+        # 🔐 ALWAYS return explainable output
+        return self.explain_engine.generate(response)
 
     def _block_decision(self, title: str, reason: str) -> dict:
         base_response = {

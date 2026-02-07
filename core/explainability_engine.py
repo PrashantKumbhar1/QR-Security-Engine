@@ -4,16 +4,6 @@ class QRExplainabilityEngine:
     """
 
     def generate(self, decision_result: dict) -> dict:
-        """
-        Converts decision output into an explainable security story
-
-        Args:
-            decision_result (dict): Output from QRDecisionEngine
-
-        Returns:
-            dict: explainability output
-        """
-
         decision = decision_result.get("decision")
         risk_level = decision_result.get("risk_level")
         reasons = decision_result.get("reasons", [])
@@ -52,7 +42,22 @@ class QRExplainabilityEngine:
                 "The QR points to a non-secure website, which increases the risk of redirection or phishing attacks.",
 
             "Unknown or unsupported QR payload":
-                "The QR uses an unusual format that cannot be safely verified."
+                "The QR uses an unusual format that cannot be safely verified.",
+
+            "ML model identified high scam probability":
+                "Machine learning analysis indicates a high likelihood that this QR code is part of a scam.",
+
+            "ML model identified moderate scam probability":
+                "Machine learning analysis suggests this QR code shares patterns with known scams.",
+
+            "ML analysis found 'amount' as a major risk contributor":
+                "Machine learning analysis indicates that the unusually high payment amount strongly increases scam risk.",
+
+            "ML analysis found 'merchant_name_missing' as a major risk contributor":
+                "Machine learning analysis shows that the absence of a merchant name is a strong indicator of QR payment scams.",
+
+            "ML analysis found 'upi_id_length' as a major risk contributor":
+                "Machine learning analysis suggests that the structure of the UPI ID resembles known scam patterns."
         }
 
         explanations = []
