@@ -11,6 +11,7 @@ class QRExplainabilityEngine:
         return {
             "decision": decision,
             "risk_level": risk_level,
+            "scam_category": decision_result.get("scam_category"),
             "summary": self._summary(risk_level),
             "why_dangerous": self._why_dangerous(reasons),
             "recommended_action": self._recommended_action(decision)

@@ -7,6 +7,8 @@ from core.feature_extractor import QRFeatureExtractor
 from core.ml_risk_scorer import MLRiskScorer
 from core.ml_xai import MLExplainabilityEngine
 from core.audit_logger import QRAuditLogger
+from core.scam_classifier import QRScamClassifier
+
 
 class DecisionAction:
     ALLOW = "ALLOW"
@@ -26,6 +28,8 @@ class QRDecisionEngine:
         self.feature_extractor = QRFeatureExtractor()
         self.ml_scorer = MLRiskScorer()
         self.audit_logger = QRAuditLogger()
+        self.scam_classifier = QRScamClassifier()
+
 
         # SHAP XAI (only if model exists)
         if self.ml_scorer.is_model_loaded():
@@ -130,9 +134,19 @@ class QRDecisionEngine:
             response["reasons"].append("Unknown or unsupported QR payload")
 
         # 🔐 ALWAYS return explainable output
+        # Scam category classification
+        scam_category = self.scam_classifier.classify(
+            payload_type=response.get("payload_type"),
+            reasons=response.get("reasons", []),
+            details=response.get("details", {})
+        )
+
+        response["scam_category"] = scam_category.value
+
         final_result = self.explain_engine.generate(response)
         self.audit_logger.log(final_result)
         return final_result
+
 
     def _block_decision(self, title: str, reason: str) -> dict:
         base_response = {

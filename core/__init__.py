@@ -1,3 +1,4 @@
+from core.audit_logger import QRAuditLogger
 from core.ml_risk_scorer import MLRiskScorer
 
 class QRDecisionEngine:
@@ -14,6 +15,8 @@ class QRDecisionEngine:
         self.feature_extractor = QRFeatureExtractor()
         self.ml_scorer = MLRiskScorer()
         self.audit_logger = QRAuditLogger()
+        self.scam_classifier = QRScamClassifier()
+
 
         if self.ml_scorer.is_model_loaded():
             self.ml_xai = MLExplainabilityEngine(
