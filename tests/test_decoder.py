@@ -8,8 +8,10 @@ def run_test():
     for k, v in result.items():
         print(f"{k}: {v}")
 
-    print("\nscam_category:", result.get("scam_category", "NOT EXPOSED"))
-    print("\n[TEST PASSED] Full decision pipeline executed.")
+    print("\n--- DECISION TIMELINE ---")
+    for step in result.get("decision_timeline", []):
+        print(step)
+
 
 
 if __name__ == "__main__":
