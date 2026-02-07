@@ -13,6 +13,7 @@ class QRDecisionEngine:
         ...
         self.feature_extractor = QRFeatureExtractor()
         self.ml_scorer = MLRiskScorer()
+        self.audit_logger = QRAuditLogger()
 
         if self.ml_scorer.is_model_loaded():
             self.ml_xai = MLExplainabilityEngine(

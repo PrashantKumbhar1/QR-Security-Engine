@@ -6,7 +6,7 @@ from core.explainability_engine import QRExplainabilityEngine
 from core.feature_extractor import QRFeatureExtractor
 from core.ml_risk_scorer import MLRiskScorer
 from core.ml_xai import MLExplainabilityEngine
-
+from core.audit_logger import QRAuditLogger
 
 class DecisionAction:
     ALLOW = "ALLOW"
@@ -25,6 +25,7 @@ class QRDecisionEngine:
         # ML components
         self.feature_extractor = QRFeatureExtractor()
         self.ml_scorer = MLRiskScorer()
+        self.audit_logger = QRAuditLogger()
 
         # SHAP XAI (only if model exists)
         if self.ml_scorer.is_model_loaded():
@@ -129,7 +130,9 @@ class QRDecisionEngine:
             response["reasons"].append("Unknown or unsupported QR payload")
 
         # 🔐 ALWAYS return explainable output
-        return self.explain_engine.generate(response)
+        final_result = self.explain_engine.generate(response)
+        self.audit_logger.log(final_result)
+        return final_result
 
     def _block_decision(self, title: str, reason: str) -> dict:
         base_response = {
@@ -137,4 +140,7 @@ class QRDecisionEngine:
             "risk_level": RiskLevel.HIGH.value,
             "reasons": [title, reason]
         }
-        return self.explain_engine.generate(base_response)
+        final_result = self.explain_engine.generate(base_response)
+        self.audit_logger.log(final_result)
+        return final_result
+

@@ -1,13 +1,16 @@
-from core.ml_risk_scorer import MLRiskScorer
+from core.decision_engine import QRDecisionEngine
 
-scorer = MLRiskScorer()
+def run_test():
+    engine = QRDecisionEngine()
 
-features = {
-    "amount": 6000,
-    "merchant_name_missing": 1,
-    "merchant_name_length": 0,
-    "upi_id_length": 8,
-    "generic_merchant_name": 0
-}
+    result = engine.analyze_qr("tests/sample_qr.png")
 
-print(scorer.predict_risk(features))
+    print("=== QR SECURITY ANALYSIS RESULT ===")
+    for k, v in result.items():
+        print(f"{k}: {v}")
+
+    print("\n[TEST PASSED] Full decision pipeline executed.")
+
+
+if __name__ == "__main__":
+    run_test()

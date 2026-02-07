@@ -1,0 +1,1 @@
+{"timestamp": "2026-02-07T14:25:25.238940", "decision": "WARN", "risk_level": "MEDIUM", "summary": "This QR code shows warning signs and should be reviewed carefully.", "reasons": ["The QR uses an unusual format that cannot be safely verified."]}
