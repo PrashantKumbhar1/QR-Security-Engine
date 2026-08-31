@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 
@@ -18,7 +18,7 @@ class QRAuditLogger:
         """
 
         record = {
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "decision": decision_result.get("decision"),
             "risk_level": decision_result.get("risk_level"),
             "summary": decision_result.get("summary"),
@@ -27,3 +27,4 @@ class QRAuditLogger:
 
         with open(self.log_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(record) + "\n")
+

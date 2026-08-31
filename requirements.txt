@@ -1,4 +1,16 @@
 opencv-python
 pyzbar
 Pillow
+pandas
+scikit-learn
+joblib
+numpy
+pytest
+python-dotenv
+
+qrcode
+fastapi
+uvicorn
+python-multipart
+pydantic
 

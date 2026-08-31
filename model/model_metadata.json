@@ -1,0 +1,185 @@
+{
+  "version": "2.0",
+  "url_model": {
+    "selected_model": "RandomForest",
+    "feature_schema": [
+      "payload_length",
+      "digit_ratio",
+      "special_char_count",
+      "url_length",
+      "domain_length",
+      "path_length",
+      "query_param_count",
+      "subdomain_count",
+      "has_shortener",
+      "is_https",
+      "is_ip_url",
+      "has_at_symbol",
+      "suspicious_tld",
+      "hex_encoding_count",
+      "double_slash_in_path"
+    ],
+    "dataset_source": "PhiUSIIL Phishing URL Dataset (UCI ID 967)",
+    "is_synthetic": false,
+    "test_metrics": {
+      "precision": 0.9921,
+      "recall": 1.0,
+      "f1_score": 0.996,
+      "roc_auc": 0.9986,
+      "pr_auc": 0.9974,
+      "confusion_matrix": [
+        [
+          496,
+          4
+        ],
+        [
+          0,
+          500
+        ]
+      ]
+    },
+    "all_candidate_metrics": {
+      "LogisticRegression": {
+        "precision": 0.9862,
+        "recall": 1.0,
+        "f1_score": 0.993,
+        "roc_auc": 0.9963,
+        "pr_auc": 0.9874,
+        "confusion_matrix": [
+          [
+            493,
+            7
+          ],
+          [
+            0,
+            500
+          ]
+        ]
+      },
+      "RandomForest": {
+        "precision": 0.9921,
+        "recall": 1.0,
+        "f1_score": 0.996,
+        "roc_auc": 0.9986,
+        "pr_auc": 0.9974,
+        "confusion_matrix": [
+          [
+            496,
+            4
+          ],
+          [
+            0,
+            500
+          ]
+        ]
+      },
+      "HistGradientBoosting": {
+        "precision": 0.994,
+        "recall": 0.998,
+        "f1_score": 0.996,
+        "roc_auc": 0.999,
+        "pr_auc": 0.9987,
+        "confusion_matrix": [
+          [
+            497,
+            3
+          ],
+          [
+            1,
+            499
+          ]
+        ]
+      }
+    }
+  },
+  "upi_model": {
+    "selected_model": "LogisticRegression",
+    "feature_schema": [
+      "payload_length",
+      "digit_ratio",
+      "special_char_count",
+      "amount",
+      "amount_missing",
+      "merchant_name_missing",
+      "merchant_name_length",
+      "generic_merchant_name",
+      "upi_id_length",
+      "upi_handle_length",
+      "has_embedded_url",
+      "non_standard_param_count",
+      "suspicious_vpa_pattern"
+    ],
+    "dataset_source": "SYNTHETIC_UPI_V1",
+    "is_synthetic": true,
+    "test_metrics": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "roc_auc": 1.0,
+      "pr_auc": 1.0,
+      "confusion_matrix": [
+        [
+          100,
+          0
+        ],
+        [
+          0,
+          100
+        ]
+      ]
+    },
+    "all_candidate_metrics": {
+      "LogisticRegression": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "confusion_matrix": [
+          [
+            100,
+            0
+          ],
+          [
+            0,
+            100
+          ]
+        ]
+      },
+      "RandomForest": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "confusion_matrix": [
+          [
+            100,
+            0
+          ],
+          [
+            0,
+            100
+          ]
+        ]
+      },
+      "HistGradientBoosting": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0,
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "confusion_matrix": [
+          [
+            100,
+            0
+          ],
+          [
+            0,
+            100
+          ]
+        ]
+      }
+    }
+  }
+}

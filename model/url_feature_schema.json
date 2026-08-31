@@ -1,0 +1,22 @@
+{
+  "schema_name": "URL_FEATURE_SCHEMA_V2",
+  "version": "2.0",
+  "total_features": 15,
+  "features": [
+    {"name": "payload_length", "type": "int", "description": "Total length of raw payload string"},
+    {"name": "digit_ratio", "type": "float", "description": "Ratio of numerical digits to total length"},
+    {"name": "special_char_count", "type": "int", "description": "Count of special characters"},
+    {"name": "url_length", "type": "int", "description": "Total URL string length"},
+    {"name": "domain_length", "type": "int", "description": "Hostname string length"},
+    {"name": "path_length", "type": "int", "description": "URL path string length"},
+    {"name": "query_param_count", "type": "int", "description": "Count of query parameters"},
+    {"name": "subdomain_count", "type": "int", "description": "Count of subdomains in netloc"},
+    {"name": "has_shortener", "type": "int", "description": "1 if hostname matches known URL shortener"},
+    {"name": "is_https", "type": "int", "description": "1 if scheme is HTTPS"},
+    {"name": "is_ip_url", "type": "int", "description": "1 if host is IPv4 address"},
+    {"name": "has_at_symbol", "type": "int", "description": "1 if @ is present in URL string"},
+    {"name": "suspicious_tld", "type": "int", "description": "1 if TLD matches high-risk phishing TLD set"},
+    {"name": "hex_encoding_count", "type": "int", "description": "Count of %XX percent-encoded sequences"},
+    {"name": "double_slash_in_path", "type": "int", "description": "1 if // appears in path string"}
+  ]
+}

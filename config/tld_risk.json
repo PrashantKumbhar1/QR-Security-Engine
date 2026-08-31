@@ -1,0 +1,9 @@
+{
+  "version": "1.0",
+  "high_risk_tlds": [
+    "top", "xyz", "zip", "work", "click", "cc", "tk", "ml", "ga", "gq", "fit", "surf", "casa", "country", "kim", "science", "gdn"
+  ],
+  "monitored_tlds": [
+    "info", "biz", "icu", "online", "site", "space", "live", "store", "tech", "club"
+  ]
+}

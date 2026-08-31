@@ -1,0 +1,6 @@
+{
+  "version": "1.0",
+  "shortener_domains": [
+    "bit.ly", "tinyurl.com", "t.co", "goo.gl", "ow.ly", "is.gd", "buff.ly", "adf.ly", "bit.do", "mcaf.ee", "su.pr", "cutt.ly", "rb.gy", "tiny.cc", "shorturl.at"
+  ]
+}

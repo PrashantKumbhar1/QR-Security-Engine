@@ -1,0 +1,20 @@
+{
+  "schema_name": "UPI_FEATURE_SCHEMA_V2",
+  "version": "2.0",
+  "total_features": 13,
+  "features": [
+    {"name": "payload_length", "type": "int", "description": "Total length of raw UPI payload string"},
+    {"name": "digit_ratio", "type": "float", "description": "Ratio of numerical digits to total length"},
+    {"name": "special_char_count", "type": "int", "description": "Count of special characters"},
+    {"name": "amount", "type": "float", "description": "Requested payment amount in INR"},
+    {"name": "amount_missing", "type": "int", "description": "1 if amount parameter is missing"},
+    {"name": "merchant_name_missing", "type": "int", "description": "1 if payee name parameter is missing"},
+    {"name": "merchant_name_length", "type": "int", "description": "Character length of payee name"},
+    {"name": "generic_merchant_name", "type": "int", "description": "1 if payee name is a generic scam keyword"},
+    {"name": "upi_id_length", "type": "int", "description": "Character length of VPA address"},
+    {"name": "upi_handle_length", "type": "int", "description": "Character length of bank handle after @"},
+    {"name": "has_embedded_url", "type": "int", "description": "1 if embedded HTTP(S) URL is in parameter"},
+    {"name": "non_standard_param_count", "type": "int", "description": "Count of non-standard query parameters"},
+    {"name": "suspicious_vpa_pattern", "type": "int", "description": "1 if VPA contains excess dots or hyphens"}
+  ]
+}

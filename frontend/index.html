@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Security Engine — AI-Assisted Threat Detection & Risk Analysis</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <!-- ================= HEADER ================= -->
+    <header class="header">
+        <div class="brand-container">
+            <div class="brand-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 3h8v8H3V3zm2 2v4h4V5H5zm8-2h8v8h-8V3zm2 2v4h4V5h-4zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm13-2h3v2h-3v-2zm-3 3h2v3h-2v-3zm3 0h3v5h-3v-5zm-3 3h2v2h-2v-2z"/>
+                </svg>
+            </div>
+            <div>
+                <div class="brand-title">QR SECURITY ENGINE</div>
+                <div class="brand-subtitle">AI-Assisted QR Threat Detection & Risk Analysis System</div>
+            </div>
+        </div>
+
+        <div class="header-status">
+            <span class="badge" style="background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: var(--text-muted);">v4.0 API</span>
+            <span id="apiStatusBadge" class="badge status-offline">CHECKING Engine...</span>
+        </div>
+    </header>
+
+    <!-- ================= MAIN CONTAINER ================= -->
+    <main class="container">
+        <div class="grid-dashboard">
+            
+            <!-- LEFT COLUMN: INPUT SCANNER PANEL -->
+            <div class="left-col">
+                <div class="glass-panel">
+                    <div class="panel-title">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        QR Code Inspection Input
+                    </div>
+
+                    <!-- DROPZONE -->
+                    <div id="dropzone" class="dropzone">
+                        <svg class="dropzone-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                        <div style="font-weight: 600; margin-bottom: 0.35rem;">Drag & Drop QR Image Here</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Supports PNG, JPEG, WebP, BMP (Max 5 MB)</div>
+                        <button id="browseBtn" class="btn-primary">Browse Files</button>
+                        <input type="file" id="fileInput" accept="image/png, image/jpeg, image/webp, image/bmp" class="hidden">
+                    </div>
+
+                    <!-- PREVIEW BOX -->
+                    <div id="previewContainer" class="preview-box hidden">
+                        <img id="previewImage" src="" alt="QR Preview" class="preview-img">
+                        <div class="preview-info">
+                            <div id="previewFilename" class="preview-filename">image.png</div>
+                            <div id="previewFilesize" class="preview-filesize">0 KB</div>
+                        </div>
+                    </div>
+
+                    <!-- CAMERA CONTROLS -->
+                    <div class="camera-container">
+                        <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">Or use device camera to capture QR:</div>
+                        <button id="startCameraBtn" class="btn-secondary">Start Camera</button>
+                        <button id="stopCameraBtn" class="btn-secondary hidden">Stop Camera</button>
+                        <button id="captureFrameBtn" class="btn-primary hidden" style="margin-left: 0.5rem;">Capture & Scan</button>
+                        <video id="cameraVideo" autoplay playsinline class="hidden"></video>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: RESULTS & EXPLAINABILITY PANEL -->
+            <div class="right-col">
+
+                <!-- IDLE STATE -->
+                <div id="idleState" class="glass-panel state-container">
+                    <svg width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24" style="color: var(--text-dim); margin-bottom: 1rem;"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    <h3 style="color: var(--text-main); font-weight: 600; margin-bottom: 0.5rem;">Engine Ready</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 400px; margin: 0 auto;">Upload a QR code image or use the camera to perform multi-stage security analysis, ML inference, and risk fusion.</p>
+                </div>
+
+                <!-- LOADING STATE -->
+                <div id="loadingState" class="glass-panel state-container hidden">
+                    <div class="spinner"></div>
+                    <h3 style="color: var(--text-main); font-weight: 600; margin-bottom: 0.35rem;">Analyzing QR Payload...</h3>
+                    <p style="color: var(--text-muted); font-size: 0.85rem;">Running feature extraction, heuristic security checks, and ML risk fusion.</p>
+                </div>
+
+                <!-- ERROR STATE -->
+                <div id="errorState" class="glass-panel state-container hidden">
+                    <svg width="56" height="56" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="color: var(--color-high); margin-bottom: 1rem;"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    <h3 style="color: var(--color-high); font-weight: 700; margin-bottom: 0.5rem;">Analysis Failed</h3>
+                    <p id="errorMessage" style="color: var(--text-muted); font-size: 0.9rem; max-width: 450px; margin: 0 auto;">An error occurred during QR inspection.</p>
+                </div>
+
+                <!-- RESULT STATE -->
+                <div id="resultState" class="hidden" style="display: flex; flex-direction: column; gap: 1.5rem;">
+
+                    <!-- PRIMARY SCORE CARD -->
+                    <div class="glass-panel">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <div class="panel-title" style="margin-bottom: 0.25rem;">Security Assessment</div>
+                                <div style="font-size: 0.85rem; color: var(--text-muted);">Fused Risk Score & Security Decision</div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <span id="riskLevelBadge" class="badge level-low">LOW</span>
+                                <span id="decisionBadge" class="badge decision-allow">ALLOW</span>
+                            </div>
+                        </div>
+
+                        <!-- CIRCULAR RISK GAUGE -->
+                        <div class="gauge-container" style="margin-top: 1.5rem;">
+                            <svg class="gauge-svg" viewBox="0 0 100 100">
+                                <circle class="gauge-bg" cx="50" cy="50" r="40"></circle>
+                                <circle id="gaugeCircle" class="gauge-circle" cx="50" cy="50" r="40"></circle>
+                            </svg>
+                            <div class="gauge-center-text">
+                                <div id="riskScoreText" class="gauge-score">0</div>
+                                <div class="gauge-max">/ 100 RISK</div>
+                            </div>
+                        </div>
+
+                        <!-- SIGNALS BREAKDOWN -->
+                        <div class="signals-grid">
+                            <div class="signal-card">
+                                <div class="signal-label">ML Risk Probability</div>
+                                <div id="mlProbValue" class="signal-val">0.0%</div>
+                                <div id="mlWeightText" class="signal-subtext">(Weight: 0.6)</div>
+                            </div>
+                            <div class="signal-card">
+                                <div class="signal-label">Heuristic Risk Score</div>
+                                <div id="heurScoreValue" class="signal-val">0 / 100</div>
+                                <div id="heurWeightText" class="signal-subtext">(Weight: 0.4)</div>
+                            </div>
+                            <div class="signal-card">
+                                <div class="signal-label">Final Risk Score</div>
+                                <div id="fusedScoreValue" class="signal-val">0 / 100</div>
+                                <div class="signal-subtext">(Fused Score)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAYLOAD INFORMATION -->
+                    <div class="glass-panel">
+                        <div class="panel-title">Decoded Payload Details</div>
+                        <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;">
+                            <span style="font-size: 0.85rem; color: var(--text-muted);">Payload Category:</span>
+                            <span id="payloadTypeBadge" class="badge" style="background: rgba(255,255,255,0.08); color: #fff;">URL</span>
+                        </div>
+                        <div id="payloadText" style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); padding: 0.85rem; border-radius: 8px; font-family: monospace; font-size: 0.85rem; word-break: break-all; color: var(--primary-cyan);">
+                            https://www.example.com
+                        </div>
+                    </div>
+
+                    <!-- THREAT INDICATORS -->
+                    <div class="glass-panel">
+                        <div class="panel-title">Detected Security Indicators</div>
+                        <div id="indicatorsList" class="indicators-container">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- DECISION TIMELINE -->
+                    <div class="glass-panel">
+                        <div class="panel-title">Pipeline Execution Timeline</div>
+                        <div id="timelineSteps" class="timeline-steps">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- EXPLAINABILITY CARD -->
+                    <div class="glass-panel">
+                        <div class="panel-title">Security Recommendation</div>
+                        <p id="summaryText" style="font-size: 0.95rem; color: var(--text-main); margin-bottom: 1rem; line-height: 1.5;"></p>
+
+                        <div id="whyDangerousContainer" class="hidden" style="margin-bottom: 1rem;">
+                            <div style="font-size: 0.85rem; font-weight: 600; color: var(--color-medium); margin-bottom: 0.5rem;">Identified Risk Factors:</div>
+                            <ul id="whyDangerousList" style="padding-left: 1.25rem; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;"></ul>
+                        </div>
+
+                        <div style="background: rgba(59, 130, 246, 0.08); border-left: 4px solid var(--primary-blue); padding: 1rem; border-radius: 6px;">
+                            <div style="font-size: 0.75rem; font-weight: 700; color: var(--primary-blue); text-transform: uppercase; margin-bottom: 0.25rem;">Recommended Action</div>
+                            <div id="recommendationText" style="font-size: 0.9rem; font-weight: 600; color: #ffffff;">Proceed with normal caution.</div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer">
+        <div>QR Security Engine — College Placement Security Portfolio & Academic Prototype</div>
+        <div style="margin-top: 0.25rem;">Passive Security Analysis Only — Does Not Perform External Network Requests or Execute Payloads</div>
+    </footer>
+
+    <!-- ================= JAVASCRIPT BOOTSTRAP ================= -->
+    <script type="module">
+        import { QRApiClient } from '/js/api.js?v=4.2';
+        import { UIController } from '/js/ui.js?v=4.2';
+        import { QRScannerController } from '/js/scanner_v2.js?v=4.2';
+
+
+
+        // Check health on load
+        async function init() {
+            const healthy = await QRApiClient.checkHealth();
+            UIController.setStatusBadge(healthy);
+        }
+
+        // Handle scan trigger
+        async function handleScan(file) {
+            UIController.showState("loading");
+            try {
+                const result = await QRApiClient.scanQR(file);
+                UIController.renderResult(result);
+            } catch (err) {
+                UIController.showError(err.message || "Security analysis failed.");
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            init();
+            new QRScannerController(handleScan);
+        });
+    </script>
+</body>
+</html>

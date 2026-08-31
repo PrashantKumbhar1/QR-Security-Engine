@@ -1,0 +1,165 @@
+{
+  "version": "3.0",
+  "rules": [
+    {
+      "rule_id": "URL_USERINFO_SPOOFING",
+      "category": "URL_STRUCTURE",
+      "severity": "CRITICAL",
+      "weight": 40,
+      "description": "URL contains an '@' symbol used for credential spoofing.",
+      "enabled": true
+    },
+    {
+      "rule_id": "URL_PUNYCODE_HOST",
+      "category": "URL_HOSTNAME",
+      "severity": "HIGH",
+      "weight": 30,
+      "description": "Hostname uses Punycode (xn--) indicating potential homograph attack.",
+      "enabled": true
+    },
+    {
+      "rule_id": "URL_IP_HOST",
+      "category": "URL_HOSTNAME",
+      "severity": "HIGH",
+      "weight": 35,
+      "description": "URL uses an IP address instead of a domain name.",
+      "enabled": true
+    },
+    {
+      "rule_id": "URL_SHORTENER_DETECTED",
+      "category": "URL_HOSTNAME",
+      "severity": "HIGH",
+      "weight": 30,
+      "description": "URL uses a known link shortening service hiding actual destination.",
+      "enabled": true
+    },
+    {
+      "rule_id": "URL_DOUBLE_SLASH_PATH",
+      "category": "URL_OBFUSCATION",
+      "severity": "HIGH",
+      "weight": 25,
+      "description": "URL path contains double slashes (//) used for redirection tricks.",
+      "enabled": true
+    },
+    {
+      "rule_id": "URL_SUSPICIOUS_TLD",
+      "category": "URL_HOSTNAME",
+      "severity": "MEDIUM",
+      "weight": 20,
+      "description": "URL uses a top-level domain frequently associated with phishing.",
+      "enabled": true
+    },
+    {
+      "rule_id": "URL_SENSITIVE_KEYWORDS",
+      "category": "URL_PATH_QUERY",
+      "severity": "MEDIUM",
+      "weight": 20,
+      "description": "URL path or query contains sensitive security/login keywords.",
+      "enabled": true
+    },
+    {
+      "rule_id": "URL_NON_SECURE_HTTP",
+      "category": "URL_PROTOCOL",
+      "severity": "MEDIUM",
+      "weight": 20,
+      "description": "URL uses non-secure HTTP protocol instead of HTTPS.",
+      "enabled": true
+    },
+    {
+      "rule_id": "URL_HEX_ENCODED_PATH",
+      "category": "URL_OBFUSCATION",
+      "severity": "MEDIUM",
+      "weight": 15,
+      "description": "URL path contains percent-encoded hex characters.",
+      "enabled": true
+    },
+    {
+      "rule_id": "URL_EXCESSIVE_SUBDOMAINS",
+      "category": "URL_HOSTNAME",
+      "severity": "MEDIUM",
+      "weight": 15,
+      "description": "Hostname contains an excessive number of subdomain levels (>=3).",
+      "enabled": true
+    },
+    {
+      "rule_id": "URL_EXCESSIVE_LENGTH",
+      "category": "URL_STRUCTURE",
+      "severity": "LOW",
+      "weight": 10,
+      "description": "URL length exceeds 75 characters.",
+      "enabled": true
+    },
+    {
+      "rule_id": "UPI_EMBEDDED_EXTERNAL_URL",
+      "category": "UPI_PAYLOAD",
+      "severity": "CRITICAL",
+      "weight": 50,
+      "description": "UPI payment payload contains an embedded external HTTP(S) URL.",
+      "enabled": true
+    },
+    {
+      "rule_id": "UPI_UNUSUALLY_HIGH_AMOUNT",
+      "category": "UPI_AMOUNT",
+      "severity": "HIGH",
+      "weight": 30,
+      "description": "UPI payment requests an unusually high amount (>= ₹10,000).",
+      "enabled": true
+    },
+    {
+      "rule_id": "UPI_HIGH_AMOUNT",
+      "category": "UPI_AMOUNT",
+      "severity": "HIGH",
+      "weight": 25,
+      "description": "UPI payment requests a high amount (>= ₹5,000).",
+      "enabled": true
+    },
+    {
+      "rule_id": "UPI_GENERIC_MERCHANT_NAME",
+      "category": "UPI_MERCHANT",
+      "severity": "MEDIUM",
+      "weight": 20,
+      "description": "UPI merchant name is a generic scam keyword.",
+      "enabled": true
+    },
+    {
+      "rule_id": "UPI_MISSING_MERCHANT_NAME",
+      "category": "UPI_MERCHANT",
+      "severity": "MEDIUM",
+      "weight": 15,
+      "description": "UPI merchant name parameter is missing or empty.",
+      "enabled": true
+    },
+    {
+      "rule_id": "UPI_UNUSUAL_VPA_FORMAT",
+      "category": "UPI_PAYEE",
+      "severity": "MEDIUM",
+      "weight": 15,
+      "description": "UPI VPA address contains an unusual format with excess dots or hyphens.",
+      "enabled": true
+    },
+    {
+      "rule_id": "UPI_MERCHANT_NAME_MISMATCH",
+      "category": "UPI_MERCHANT",
+      "severity": "MEDIUM",
+      "weight": 15,
+      "description": "Payee VPA handle and payee name show structural inconsistency.",
+      "enabled": true
+    },
+    {
+      "rule_id": "UPI_SUSPICIOUS_HANDLE",
+      "category": "UPI_PAYEE",
+      "severity": "MEDIUM",
+      "weight": 15,
+      "description": "UPI handle uses a non-standard or temporary domain name.",
+      "enabled": true
+    },
+    {
+      "rule_id": "UPI_NON_STANDARD_PARAMS",
+      "category": "UPI_PAYLOAD",
+      "severity": "LOW",
+      "weight": 10,
+      "description": "UPI payload contains non-standard query parameters.",
+      "enabled": true
+    }
+  ]
+}

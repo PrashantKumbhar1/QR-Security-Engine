@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 class DecisionTimeline:
@@ -11,7 +11,7 @@ class DecisionTimeline:
 
     def add_step(self, stage: str, description: str, outcome: str = None):
         self.steps.append({
-            "timestamp": datetime.utcnow().isoformat(),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
             "stage": stage,
             "description": description,
             "outcome": outcome
@@ -19,3 +19,4 @@ class DecisionTimeline:
 
     def export(self) -> list:
         return self.steps
+

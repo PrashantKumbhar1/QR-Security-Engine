@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "fusion_method": "hybrid_linear_critical_floor",
+  "url": {
+    "ml_weight": 0.60,
+    "heuristic_weight": 0.40
+  },
+  "upi": {
+    "ml_weight": 0.40,
+    "heuristic_weight": 0.60
+  },
+  "default": {
+    "ml_weight": 0.50,
+    "heuristic_weight": 0.50
+  },
+  "critical_floor_score": 75,
+  "thresholds": {
+    "low": 24,
+    "medium": 49,
+    "high": 74
+  }
+}

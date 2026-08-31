@@ -1,33 +1,33 @@
-from core.audit_logger import QRAuditLogger
+from core.qr_decoder import QRDecoder, QRDecodeError
+from core.payload_classifier import QRPayloadClassifier, PayloadType
+from core.upi_parser import UPIParser, UPIParseError
+from core.risk_engine import QRHeuristicRiskEngine, RiskLevel, RiskResult
+from core.explainability_engine import QRExplainabilityEngine
+from core.feature_extractor import QRFeatureExtractor
 from core.ml_risk_scorer import MLRiskScorer
+from core.scam_classifier import QRScamClassifier, ScamCategory
+from core.audit_logger import QRAuditLogger
+from core.decision_timeline import DecisionTimeline
+from core.decision_engine import QRDecisionEngine, DecisionAction
 
-class QRDecisionEngine:
-    def __init__(self):
-        self.decoder = QRDecoder()
-        self.classifier = QRPayloadClassifier()
-        self.upi_parser = UPIParser()
-        self.risk_engine = QRHeuristicRiskEngine()
-        self.explain_engine = QRExplainabilityEngine()
+__all__ = [
+    "QRDecoder",
+    "QRDecodeError",
+    "QRPayloadClassifier",
+    "PayloadType",
+    "UPIParser",
+    "UPIParseError",
+    "QRHeuristicRiskEngine",
+    "RiskLevel",
+    "RiskResult",
+    "QRExplainabilityEngine",
+    "QRFeatureExtractor",
+    "MLRiskScorer",
+    "QRScamClassifier",
+    "ScamCategory",
+    "QRAuditLogger",
+    "DecisionTimeline",
+    "QRDecisionEngine",
+    "DecisionAction",
+]
 
-class QRDecisionEngine:
-    def __init__(self):
-        ...
-        self.feature_extractor = QRFeatureExtractor()
-        self.ml_scorer = MLRiskScorer()
-        self.audit_logger = QRAuditLogger()
-        self.scam_classifier = QRScamClassifier()
-
-
-        if self.ml_scorer.is_model_loaded():
-            self.ml_xai = MLExplainabilityEngine(
-                self.ml_scorer.model,
-                feature_names=list(
-                    sorted(self.feature_extractor.extract_upi_features({
-                        "payee_address": "",
-                        "payee_name": "",
-                        "amount": 0
-                    }).keys())
-                )
-            )
-        else:
-            self.ml_xai = None
