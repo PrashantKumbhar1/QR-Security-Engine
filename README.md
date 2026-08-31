@@ -184,14 +184,4 @@ Analyzes an uploaded QR code image file.
 
 ---
 
-## 8. College Placement & Technical Interview Prep
 
-### Resume Project Summary (2 Lines)
-> Developed a multi-stage QR Threat Detection & Risk Analysis System using Python, FastAPI, Scikit-Learn, and Vanilla JS. Implemented deterministic feature schemas, deep heuristic analyzers, dual ML models, and a hybrid risk fusion engine with critical floor overrides, achieving 48/48 passing automated tests.
-
-### Key Technical Highlights
-1. **Schema v2.0 Contract Architecture**: Deterministic feature extraction split into 15 URL features and 13 UPI features.
-2. **Zero Domain-Overlap Metric Verification**: Evaluated URL Random Forest model on 5,000 real-world UCI benchmark URLs under 0% domain overlap, achieving $F1 = 0.9958$.
-3. **Hybrid Risk Fusion Mathematics**: Synthesizes ML probabilities ($P_{\text{ML}}$) and Heuristic scores ($S_{\text{heur}}$) with payload-specific weights and a 75-point `CRITICAL` floor override.
-4. **FastAPI REST Gateway**: Built high-throughput API with 5 MB file size limits, MIME validation, and in-memory byte processing.
-5. **Decoupled Web Architecture**: Built a sleek cybersecurity dashboard in HTML5/CSS3/Vanilla JS served by FastAPI, strictly maintaining backend security authority.
